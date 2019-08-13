@@ -9,7 +9,7 @@ SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
 @app.route('/')
 def index():
-    return 'Index'
+    return 'Недопустимый метод'
 
 @app.route('/ord')
 def ord():
@@ -302,5 +302,31 @@ def mag():
         #     idx += 1
         #
         # return json.dumps(d)
+@app.route('/asp')
+def asp():
+
+    load_json = SITE_ROOT + '/static/asp.jsn'
+
+    d = []
+    idx = 1
+    with open(load_json, 'r', encoding='UTF-8') as data:
+        data2 = json.load(data)
+        for data3 in data2:
+            d.append(dict(id=idx,
+                          FizLico=data3['ФизическоеЛицо'],
+                          Specialnost=data3['КонкурснаяГруппа'],
+                          Profile=data3['Профиль'],
+                          SummaBallov=data3['СуммаБаллов'],
+                          Predmet1=data3['Предмет1'],
+                          Predmet2=data3['Предмет2'],
+                          Predmet3=data3['Предмет3'],
+                          SummaBallovIDKonkyrs=data3['СуммаБалловПоИДДляКонкурса'],
+                          VidDocementa=data3['ВидДокумента'],
+                          SoglasieNaZachislenie=data3['СогласиеНаЗачисление']
+                          ))
+            idx += 1
+        return jsonify(d)
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)
